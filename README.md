@@ -1,8 +1,15 @@
-# Frontend Assets
+# Favorites Icons
 ```bash
-pip install git+https://github.com/avryhof/frontend_assets.git
+pip install git+https://github.com/avryhof/favorites_icons.git
 ```
 
-This is just a basic package that can be installed in Django to bring in a collection of Front-End libraries I use for many projects.
+A simple plugin to generate all of your touch and favorites icons, as well as the needed tags to make them work.A
 
-It also has a base template that you can use to kickstart your project.
+## settings.py
+```python
+ICON_SRC = '/path/to/a/big/file.png'
+
+# Optional
+# A list of numbers for icon sizes... they will all be generated and tagged.
+ICON_SIZES = [16, 32, 57, 60, 64, 72, 76, 96, 114, 120, 144, 152, 180, 192, 256, 512]
+```
