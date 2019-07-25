@@ -4,11 +4,11 @@ from os import path
 from setuptools import setup
 
 github_user = 'avryhof'
-github_repo_name = 'frontend_assets'
-module_path = 'frontend_assets'
+github_repo_name = 'favorites_icons'
+module_path = 'favorites_icons'
 author = 'Amos Vryhof'
 author_email = 'amos@vryhofresearch.com'
-description = 'A collection of front-end assets I use for several sites'
+description = 'Automatic generator for favorites and touch icons, and their appropriate tags.'
 
 
 def read(*parts):
@@ -56,9 +56,5 @@ setup(
     ],
     install_requires=[
         "django",
-        "django-bootstrap4",
-        "future",
-        "requests",
-        "subresource-integrity"
     ],
 )

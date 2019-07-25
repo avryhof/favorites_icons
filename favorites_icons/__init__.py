@@ -1,5 +1,5 @@
 """
 @copyright Copyright Amos Vryhof
 """
-__version__ = '0.7.4'
-__name__ = 'frontend_assets'
+__version__ = '0.0.1'
+__name__ = 'favorites_icons'
