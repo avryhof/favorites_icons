@@ -88,6 +88,6 @@ def generate_manifest():
             }
         )
 
-    with open(target_file) as manifest_file:
+    with open(target_file, "w") as manifest_file:
         json.dump(manifest, manifest_file)
         manifest_file.close()
