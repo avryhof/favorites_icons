@@ -1,10 +1,14 @@
 import json
+import logging
 import os
 import re
 
 from PIL import Image
 from django.conf import settings
 from django.contrib.sites.models import Site
+from pkg_resources import PermissionError
+
+logger = logging.getLogger(__name__)
 
 
 def url_join(*args):
@@ -28,13 +32,19 @@ def generate_icons(**kwargs):
 
     if icon_source:
         if not os.path.exists(icon_path):
-            os.makedirs(icon_path)
+            try:
+                os.makedirs(icon_path)
+            except:
+                logger.info('Failed to create %s' % icon_path)
 
         img = Image.open(icon_source)
 
         ico_target = os.path.join(icon_path, "favicon.ico")
         if overwrite or not os.path.exists(ico_target):
-            img.save(ico_target, sizes=ico_sizes)
+            try:
+                img.save(ico_target, sizes=ico_sizes)
+            except:
+                logger.info('Failed to Save %s' % ico_target)
 
         icon_sizes = sorted(icon_sizes, reverse=True)
         # Use the same image object, start with the largest size, and work our way down.
@@ -42,7 +52,10 @@ def generate_icons(**kwargs):
             target_file = os.path.join(icon_path, "favicon-%ix%i.png" % (icon_size, icon_size))
             if overwrite or not os.path.exists(target_file):
                 img.thumbnail((icon_size, icon_size), Image.ANTIALIAS)
-                img.save(target_file, "PNG")
+                try:
+                    img.save(target_file, "PNG")
+                except:
+                    logger.info('Failed to save %s' % target_file)
 
 
 def generate_manifest(**kwargs):
@@ -88,6 +101,9 @@ def generate_manifest(**kwargs):
         os.remove(target_file)
 
     if overwrite or not os.path.exists(target_file):
-        with open(target_file, "w") as manifest_file:
-            manifest_file.write(manifest_json)
-            manifest_file.close()
+        try:
+            with open(target_file, "w") as manifest_file:
+                manifest_file.write(manifest_json)
+                manifest_file.close()
+        except:
+            logger.info('Failed to create manifest.json')
