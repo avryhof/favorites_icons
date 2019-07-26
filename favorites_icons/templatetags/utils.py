@@ -60,17 +60,12 @@ def generate_manifest(**kwargs):
         settings, "ICON_SIZES", [16, 32, 57, 60, 64, 72, 76, 96, 114, 120, 144, 152, 180, 192, 256, 512]
     )
 
-    site_name = False
     current_site = False
 
     if hasattr(settings, "SITE_ID"):
         current_site = Site.objects.get_current()
 
-    if hasattr(settings, "SITE_NAME"):
-        site_name = getattr(settings, "SITE_NAME", current_site.name)
-
-    else:
-        site_name = "My app"
+    site_name = getattr(settings, "SITE_NAME", current_site.name if current_site else "My App")
 
     manifest = {"name": site_name, "icons": []}
 
