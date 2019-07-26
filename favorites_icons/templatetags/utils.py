@@ -52,7 +52,7 @@ def generate_manifest(**kwargs):
     static_url = getattr(settings, "STATIC_URL", False)
 
     icon_path = os.path.join(static_root, "favicons")
-    icon_url = os.path.join(static_url, "favicons")
+    icon_url_path = os.path.join(static_url, "favicons")
 
     target_file = os.path.join(icon_path, "manifest.json")
 
@@ -71,7 +71,7 @@ def generate_manifest(**kwargs):
 
     density_factor = 48
     for icon_size in icon_sizes:
-        icon_url = url_join(icon_url, "favicon-%ix%i.png" % (icon_size, icon_size))
+        icon_url = url_join(icon_url_path, "favicon-%ix%i.png" % (icon_size, icon_size))
 
         manifest["icons"].append(
             {
