@@ -15,8 +15,8 @@ register = template.Library()
 
 @register.simple_tag
 def touch_icons(overwrite=False):
-    generate_icons()
-    generate_manifest()
+    generate_icons(overwrite=overwrite)
+    generate_manifest(overwrite=overwrite)
 
     static_root = getattr(settings, "STATIC_URL", False)
     icon_path = os.path.join(static_root, "favicons")

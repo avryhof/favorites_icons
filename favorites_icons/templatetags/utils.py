@@ -67,12 +67,9 @@ def generate_manifest(**kwargs):
         current_site = Site.objects.get_current()
 
     if hasattr(settings, "SITE_NAME"):
-        site_name = getattr(settings, "SITE_NAME")
+        site_name = getattr(settings, "SITE_NAME", current_site.name)
 
-    elif not site_name and isinstance(current_site, Site):
-        site_name = current_site.name
-
-    if not site_name:
+    else:
         site_name = "My app"
 
     manifest = {"name": site_name, "icons": []}
