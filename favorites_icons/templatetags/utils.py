@@ -1,7 +1,15 @@
 import os
+import re
 
 from PIL import Image
 from django.conf import settings
+
+
+def url_join(*args):
+    os_path = os.path.join(*args)
+    path_parts = re.split(r'/|\\', os_path)
+
+    return "/".join(path_parts)
 
 
 def generate_icons(**kwargs):

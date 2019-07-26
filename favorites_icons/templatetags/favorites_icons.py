@@ -8,7 +8,7 @@ from django import template
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
-from .utils import generate_icons
+from .utils import generate_icons, url_join
 
 register = template.Library()
 
@@ -26,7 +26,7 @@ def touch_icons():
 
     icons = []
     for icon_size in icon_sizes:
-        icon_url = os.path.join(icon_path, "favicon-%ix%i.png" % (icon_size, icon_size))
+        icon_url = url_join(icon_path, "favicon-%ix%i.png" % (icon_size, icon_size))
 
         icons.append('<link rel="apple-touch-icon" sizes="%ix%i" href="%s">' % (icon_size, icon_size, icon_url))
         icons.append('<link rel="icon" type="image/png" sizes="%ix%i"  href="%s">' % (icon_size, icon_size, icon_url))
@@ -35,7 +35,7 @@ def touch_icons():
         '<meta name="msapplication-TileImage" content="%s">' % os.path.join(icon_path, "favicon-%ix%i.png" % (144, 144))
     )
 
-    favicon_url = os.path.join(icon_path, "favicon.ico")
+    favicon_url = url_join(icon_path, "favicon.ico")
     icons.append('<link rel="shortcut icon" href="%s" type="image/x-icon">' % favicon_url)
     icons.append('<link rel="icon" href="%s" type="image/x-icon">' % favicon_url)
 
