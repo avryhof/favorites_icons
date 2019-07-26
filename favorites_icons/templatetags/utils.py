@@ -84,7 +84,7 @@ def generate_manifest():
                 "src": icon_url,
                 "sizes": "%ix%i" % (icon_size, icon_size),
                 "type": "image/png",
-                "density": str(icon_size / density_factor),
+                "density": str(round(icon_size / density_factor, 2)),
             }
         )
 
