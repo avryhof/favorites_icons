@@ -14,7 +14,7 @@ register = template.Library()
 
 
 @register.simple_tag
-def touch_icons():
+def touch_icons(overwrite=False):
     generate_icons()
     generate_manifest()
 

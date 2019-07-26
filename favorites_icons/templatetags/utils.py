@@ -45,7 +45,9 @@ def generate_icons(**kwargs):
                 img.save(target_file, "PNG")
 
 
-def generate_manifest():
+def generate_manifest(**kwargs):
+    overwrite = kwargs.get("overwrite", False)
+
     static_root = getattr(settings, "STATIC_ROOT", False)
     static_url = getattr(settings, "STATIC_URL", False)
 
@@ -88,6 +90,10 @@ def generate_manifest():
             }
         )
 
-    with open(target_file, "w") as manifest_file:
-        json.dump(manifest, manifest_file)
-        manifest_file.close()
+    if overwrite or not os.path.exists(target_file):
+        if overwrite and os.path.exists(target_file):
+            os.remove(target_file)
+
+        with open(target_file, "w") as manifest_file:
+            json.dump(manifest, manifest_file)
+            manifest_file.close()
