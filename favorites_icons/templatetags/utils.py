@@ -82,10 +82,12 @@ def generate_manifest(**kwargs):
             }
         )
 
-    if overwrite or not os.path.exists(target_file):
-        if overwrite and os.path.exists(target_file):
-            os.remove(target_file)
+    manifest_json = json.dumps(manifest)
 
+    if overwrite and os.path.exists(target_file):
+        os.remove(target_file)
+
+    if overwrite or not os.path.exists(target_file):
         with open(target_file, "w") as manifest_file:
-            json.dump(manifest, manifest_file)
+            manifest_file.write(manifest_json)
             manifest_file.close()
