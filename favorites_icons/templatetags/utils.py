@@ -6,7 +6,6 @@ import re
 from PIL import Image
 from django.conf import settings
 from django.contrib.sites.models import Site
-from pkg_resources import PermissionError
 
 logger = logging.getLogger(__name__)
 
