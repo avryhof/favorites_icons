@@ -1,6 +1,8 @@
+import datetime
 import json
 import logging
 import os
+import pprint
 import re
 
 from PIL import Image
@@ -8,6 +10,21 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 
 logger = logging.getLogger(__name__)
+
+
+def log_message(message, **kwargs):
+    pretty = kwargs.get("pretty", False)
+    verbosity = kwargs.get('verbosity', False)
+
+    if pretty:
+        message = pprint.pformat(message)
+
+    log_message = "%s: %s\n" % (datetime.datetime.now().isoformat()[0:19], message)
+
+    logger.info(message)
+
+    if verbosity:
+        print(log_message)
 
 
 def url_join(*args):
@@ -19,6 +36,7 @@ def url_join(*args):
 
 def generate_icons(**kwargs):
     overwrite = kwargs.get("overwrite", False)
+    echo_status = kwargs.get("echo_status", False)
 
     static_root = getattr(settings, "STATIC_ROOT", False)
     icon_path = os.path.join(static_root, "favicons")
@@ -34,7 +52,7 @@ def generate_icons(**kwargs):
             try:
                 os.makedirs(icon_path)
             except:
-                logger.info('Failed to create %s' % icon_path)
+                log_message('Failed to create %s' % icon_path, verbosity=echo_status)
 
         img = Image.open(icon_source)
 
@@ -43,7 +61,7 @@ def generate_icons(**kwargs):
             try:
                 img.save(ico_target, sizes=ico_sizes)
             except:
-                logger.info('Failed to Save %s' % ico_target)
+                log_message('Failed to Save %s' % ico_target, verbosity=echo_status)
 
         icon_sizes = sorted(icon_sizes, reverse=True)
         # Use the same image object, start with the largest size, and work our way down.
@@ -54,11 +72,12 @@ def generate_icons(**kwargs):
                 try:
                     img.save(target_file, "PNG")
                 except:
-                    logger.info('Failed to save %s' % target_file)
+                    log_message('Failed to save %s' % target_file, verbosity=echo_status)
 
 
 def generate_manifest(**kwargs):
     overwrite = kwargs.get("overwrite", False)
+    echo_status = kwargs.get("echo_status", False)
 
     static_root = getattr(settings, "STATIC_ROOT", False)
     static_url = getattr(settings, "STATIC_URL", False)
@@ -105,4 +124,4 @@ def generate_manifest(**kwargs):
                 manifest_file.write(manifest_json)
                 manifest_file.close()
         except:
-            logger.info('Failed to create manifest.json')
+            log_message('Failed to create manifest.json', verbosity=echo_status)
