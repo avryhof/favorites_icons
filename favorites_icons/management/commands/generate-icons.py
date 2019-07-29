@@ -7,6 +7,7 @@ from __future__ import unicode_literals
 import datetime
 import logging
 import math
+import os
 import pprint
 
 from django.conf import settings
@@ -57,8 +58,17 @@ class Command(BaseCommand):
 
         self._timer()
 
+        static_root = getattr(settings, "STATIC_ROOT", False)
+        static_url = getattr(settings, "STATIC_URL", False)
+
+        icon_path = os.path.join(static_root, "favicons")
+        icon_url_path = os.path.join(static_url, "favicons")
+
+        self.stdout.write("Generating icons in: %s" % icon_path)
+        self.stdout.write("URL Base: %s" % icon_url_path)
+
         overwrite = True
-        generate_icons(overwrite=overwrite)
-        generate_manifest(overwrite=overwrite)
+        generate_icons(overwrite=overwrite, echo_status=True)
+        generate_manifest(overwrite=overwrite, echo_status=True)
 
         self._timer()
